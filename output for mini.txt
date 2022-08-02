@@ -1,0 +1,625 @@
+mysql> use miniproject;
+Database changed
+mysql> create table student(
+    -> stu_id int primary key,
+    -> sname char (25),
+    -> address char (25),
+    -> dob date,
+    -> dept_name char (26),
+    -> year int
+    -> );
+Query OK, 0 rows affected (0.23 sec)
+
+mysql> desc student;
++-----------+----------+------+-----+---------+-------+
+| Field     | Type     | Null | Key | Default | Extra |
++-----------+----------+------+-----+---------+-------+
+| stu_id    | int      | NO   | PRI | NULL    |       |
+| sname     | char(25) | YES  |     | NULL    |       |
+| address   | char(25) | YES  |     | NULL    |       |
+| dob       | date     | YES  |     | NULL    |       |
+| dept_name | char(26) | YES  |     | NULL    |       |
+| year      | int      | YES  |     | NULL    |       |
++-----------+----------+------+-----+---------+-------+
+6 rows in set (0.01 sec)
+mysql> select * from student;
++--------+---------+------------+------------+-----------+------+
+| stu_id | sname   | address    | dob        | dept_name | year |
++--------+---------+------------+------------+-----------+------+
+|    101 | manohar | yanam      | 2020-02-11 | CSE       |    2 |
+|    102 | kushi   | Hyderabad  | 2000-04-21 | CSE       |    2 |
+|    103 | kumar   | Tirupathi  | 2000-03-11 | CSE       |    2 |
+|    104 | navven  | Kalahasthi | 2000-07-10 | MECH      |    2 |
+|    105 | likitha | vijayavada | 2000-02-19 | IT        |    1 |
++--------+---------+------------+------------+-----------+------+
+5 rows in set (0.01 sec)
+mysql> create table payment(
+    -> pay_id int primary key,
+    -> pay_date date,
+    -> pay_amount float,
+    -> pay_mode char(29),
+    -> stu_id int,
+    -> foreign key (stu_id) references student (stu_id)
+    -> );
+Query OK, 0 rows affected (0.12 sec)
+
+mysql> desc payment;
++------------+----------+------+-----+---------+-------+
+| Field      | Type     | Null | Key | Default | Extra |
++------------+----------+------+-----+---------+-------+
+| pay_id     | int      | NO   | PRI | NULL    |       |
+| pay_date   | date     | YES  |     | NULL    |       |
+| pay_amount | float    | YES  |     | NULL    |       |
+| pay_mode   | char(29) | YES  |     | NULL    |       |
+| stu_id     | int      | YES  | MUL | NULL    |       |
++------------+----------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+mysql> select * from payment;
++--------+------------+------------+----------+--------+
+| pay_id | pay_date   | pay_amount | pay_mode | stu_id |
++--------+------------+------------+----------+--------+
+|   1000 | 2020-12-22 |      50000 | online   |    101 |
+|   1001 | 2020-11-10 |      50000 | offline  |    102 |
+|   1002 | 2020-10-02 |      50000 | offline  |    103 |
+|   1003 | 2020-11-02 |      50000 | online   |    104 |
+|   1004 | 2020-11-11 |      50000 | online   |    105 |
++--------+------------+------------+----------+--------+
+5 rows in set (0.00 sec)
+near 'flaot,' at line 5
+mysql> create table workers(
+    -> worker_id int primary key,
+    -> wname char(29),
+    -> w_feild char (29),
+    -> salary float,
+    -> phone_no real
+    -> );
+Query OK, 0 rows affected (0.12 sec)
+
+mysql> desc workers;
++-----------+----------+------+-----+---------+-------+
+| Field     | Type     | Null | Key | Default | Extra |
++-----------+----------+------+-----+---------+-------+
+| worker_id | int      | NO   | PRI | NULL    |       |
+| wname     | char(29) | YES  |     | NULL    |       |
+| w_feild   | char(29) | YES  |     | NULL    |       |
+| salary    | float    | YES  |     | NULL    |       |
+| phone_no  | double   | YES  |     | NULL    |       |
++-----------+----------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+mysql> select * from workers;
++-----------+---------+------------------+--------+------------+
+| worker_id | wname   | w_feild          | salary | phone_no   |
++-----------+---------+------------------+--------+------------+
+|       500 | kavitha | sweeper          |   5000 | 9874637298 |
+|       501 | Rahul   | cleaner          |   5000 | 9874257298 |
+|       502 | ajay    | watchman         |   5000 | 9874257222 |
+|       503 | barath  | cleaner          |   6000 | 9819857222 |
+|       504 | surya   | bathroom_cleaner |   1000 | 9819787112 |
++-----------+---------+------------------+--------+------------+
+5 rows in set (0.01 sec)
+mysql> create table staff(
+    -> staff_id int primary key,
+    -> staff_name char (20),
+    -> s_salary float,
+    -> s_phone_no real,
+    -> staff_feild char (20),
+    -> worker_id int,
+    -> foreign key(worker_id) references workers(worker_id)
+    -> );
+Query OK, 0 rows affected (0.10 sec)
+
+mysql> desc staff;
++-------------+----------+------+-----+---------+-------+
+| Field       | Type     | Null | Key | Default | Extra |
++-------------+----------+------+-----+---------+-------+
+| staff_id    | int      | NO   | PRI | NULL    |       |
+| staff_name  | char(20) | YES  |     | NULL    |       |
+| s_salary    | float    | YES  |     | NULL    |       |
+| s_phone_no  | double   | YES  |     | NULL    |       |
+| staff_feild | char(20) | YES  |     | NULL    |       |
+| worker_id   | int      | YES  | MUL | NULL    |       |
++-------------+----------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+mysql> select * from staff;
++----------+--------------+----------+------------+-------------+-----------+
+| staff_id | staff_name   | s_salary | s_phone_no | staff_feild | worker_id |
++----------+--------------+----------+------------+-------------+-----------+
+|      200 | manohar      |    30000 | 9827492748 | warden      |       500 |
+|      201 | prudvi       |    40000 | 9827492755 | incharge    |       501 |
+|      202 | akila        |    60000 |  982749222 | warden      |       502 |
+|      203 | ramachandran |    15000 |  982749244 | employeee   |       503 |
+|      204 | mukundhan    |    23000 |  982749278 | worker      |       504 |
++----------+--------------+----------+------------+-------------+-----------+
+5 rows in set (0.00 sec)
+
+mysql> create table hos_main(
+    -> complain_id int primary key,
+    -> complain_name char (30),
+    -> room_no int,
+    -> date_of_com date,
+    -> funds char (30)
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> desc hos_main;
++---------------+----------+------+-----+---------+-------+
+| Field         | Type     | Null | Key | Default | Extra |
++---------------+----------+------+-----+---------+-------+
+| complain_id   | int      | NO   | PRI | NULL    |       |
+| complain_name | char(30) | YES  |     | NULL    |       |
+| room_no       | int      | YES  |     | NULL    |       |
+| date_of_com   | date     | YES  |     | NULL    |       |
++---------------+----------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+mysql> select * from hos_main;
++-------------+---------------+---------+-------------+
+| complain_id | complain_name | room_no | date_of_com |
++-------------+---------------+---------+-------------+
+|         400 | fan           |      39 | 2022-06-12  |
+|         401 | light         |      47 | 2022-07-10  |
+|         402 | bathroom      |      41 | 2022-03-11  |
+|         403 | window        |      40 | 2022-08-10  |
+|         404 | tables        |      61 | 2022-09-19  |
++-------------+---------------+---------+-------------+
+5 rows in set (0.00 sec)
+mysql> create table mess(
+    -> mess_worker char (30),
+    -> m_w_feild char (30),
+    -> mess_worker_id int primary key,
+    -> );
+Query OK, 0 rows affected (0.12 sec)
+mysql> select * from mess;
++-------------+-----------+----------------+
+| mess_worker | m_w_feild | mess_worker_id |
++-------------+-----------+----------------+
+| gopi        | cook      |            600 |
+| hari        | cutter    |            601 |
+| bhanu       | server    |            602 |
+| hema        | helper    |            603 |
+| reka        | cleaner   |            605 |
++-------------+-----------+----------------+
+5 rows in set (0.00 sec)
+
+mysql> desc mess;
++----------------+----------+------+-----+---------+-------+
+| Field          | Type     | Null | Key | Default | Extra |
++----------------+----------+------+-----+---------+-------+
+| mess_worker    | char(30) | YES  |     | NULL    |       |
+| m_w_feild      | char(30) | YES  |     | NULL    |       |
+| mess_worker_id | int      | NO   | PRI | NULL    |       |
++----------------+----------+------+-----+---------+-------+
+3 rows in set (0.01 s
+
+
+mysql> create table visitors(
+    -> visiter_id int primary key,
+    -> stu_id int,
+    -> in_time varchar(10),
+    -> out_time varchar(10),
+    -> date_of_visit date,
+    -> foreign key(stu_id) references student(stu_id)
+    -> );
+Query OK, 0 rows affected (0.09 sec)
+
+
+mysql> desc visitors;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| visiter_id    | int         | NO   | PRI | NULL    |       |
+| stu_id        | int         | YES  | MUL | NULL    |       |
+| in_time       | varchar(10) | YES  |     | NULL    |       |
+| out_time      | time        | YES  |     | NULL    |       |
+| date_of_visit | date        | YES  |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+
+mysql> select * from visitors;
++------------+--------+----------+----------+---------------+
+| visiter_id | stu_id | in_time  | out_time | date_of_visit |
++------------+--------+----------+----------+---------------+
+|        700 |    101 | 10:45 pm | 7:30 pm  | 2022-02-23    |
+|        701 |    103 | 4:40 pm  | 6:30 pm  | 2022-03-21    |
+|        702 |    103 | 6:20 am  | 3:30 pm  | 2022-03-10    |
+|        703 |    104 | 2:20 am  | 4:56 pm  | 2022-02-10    |
+|        704 |    102 | 11:20 am | 8:00 pm  | 2022-05-12    |
++------------+--------+----------+----------+---------------+
+5 rows in set (0.00 sec)
+
+
+
+
+                                                 QUERIES
+
+1.FIND THE STUDENTS LIST WHO HAD NOT PAID THE HOSTEL FEE?
+
+QUERY:
+mysql> select *from payment where balance>0;
++--------+------------+------------+----------+--------+---------+
+| pay_id | pay_date   | pay_amount | pay_mode | stu_id | balance |
++--------+------------+------------+----------+--------+---------+
+|   1001 | 2020-11-10 |      40000 | offline  |    102 |   10000 |
++--------+------------+------------+----------+--------+---------+
+1 row in set (0.00 sec)
+
+
+2.find the age of the each student from the student details table?
+mysql> select stu_id ,timestampdiff(year,dob,curdate()) as age from student;
++--------+------+
+| stu_id | age  |
++--------+------+
+|    101 |   20 |
+|    102 |   22 |
+|    103 |   22 |
+|    104 |   21 |
+|    105 |   22 |
++--------+------+
+5 rows in set (0.00 sec)
+
+3.find the name,id,payment details who paid amount in 'online mode'.
+mysql> select s.sname,s.stu_id,p.pay_id,p.balance from
+    -> student s join payment p on s.stu_id=p.stu_id
+    -> where p.pay_mode='online';
++---------+--------+--------+---------+
+| sname   | stu_id | pay_id | balance |
++---------+--------+--------+---------+
+| manohar |    101 |   1000 |    NULL |
+| navven  |    104 |   1003 |    NULL |
+| likitha |    105 |   1004 |    NULL |
++---------+--------+--------+---------+
+3 rows in set (0.01 sec)
+
+4.find the electrician who are joined in specific date.
+mysql> select worker_id,wname,salary from workers where date_of_join='2018-10-22' and w_feild='electrician';
++-----------+--------+--------+
+| worker_id | wname  | salary |
++-----------+--------+--------+
+|       503 | barath |   6000 |
++-----------+--------+--------+
+1 row in set (0.01 sec)	
+
+5.find the student details and visiter id who visits the hostal in march month.
+mysql> select s.*,v.visiter_id from student s join visitors v on s.stu_id=v.stu_id where month(date_of_visit)=3;
++--------+-------+-----------+------------+-----------+------+------------+
+| stu_id | sname | address   | dob        | dept_name | year | visiter_id |
++--------+-------+-----------+------------+-----------+------+------------+
+|    103 | kumar | Tirupathi | 2000-03-11 | CSE       |    2 |        701 |
+|    103 | kumar | Tirupathi | 2000-03-11 | CSE       |    2 |        702 |
++--------+-------+-----------+------------+-----------+------+------------+
+2 rows in set (0.01 sec)
+
+6.find the maximum,minimum,average salary of worker who works in the particuar field.
+mysql> select max(salary) as maximum_salary,min(salary) as minimum_salary, avg(salary) as 
+       ->avg_salary from workers  where w_feild='electrician';
++----------------+----------------+------------+
+| maximum_salary | minimum_salary | avg_salary |
++----------------+----------------+------------+
+|           6000 |           5000 |       5500 |
++----------------+----------------+------------+
+1 row in set (0.01 sec)
+
+7.printf the details of the staff who earn more than average salary in the electrician field.
+mysql> select * from workers where salary>(select avg(salary) from workers)  and w_feild='electrician';
++-----------+--------+-------------+--------+------------+--------------+
+| worker_id | wname  | w_feild     | salary | phone_no   | date_of_join |
++-----------+--------+-------------+--------+------------+--------------+
+|       501 | Rahul  | electrician |   5000 | 9874257298 | 2018-04-19   |
+|       503 | barath | electrician |   6000 | 9819857222 | 2018-10-22   |
++-----------+--------+-------------+--------+------------+--------------+
+2 rows in set (0.00 sec)
+
+8.find the details of the student whose name starts with kum.
+mysql> select * from student where sname like 'kum%';
++--------+-------+-----------+------------+-----------+------+
+| stu_id | sname | address   | dob        | dept_name | year |
++--------+-------+-----------+------------+-----------+------+
+|    103 | kumar | Tirupathi | 2000-03-11 | CSE       |    2 |
++--------+-------+-----------+------------+-----------+------+
+1 row in set (0.01 sec)
+
+9. find the worker feild in which more number of workers are  working.
+mysql> create table vp1 as (select m_w_feild,(count(m_w_feild)) as count from mess group by m_w_feild);
+Query OK, 5 rows affected (0.09 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+mysql> select max(count) as no_of_workers,m_w_feild from vp1 ;
++---------------+-----------+
+| no_of_workers | m_w_feild |
++---------------+-----------+
+|             3 | cook      |
++---------------+-----------+
+1 row in set (0.00 sec)
+10.create a trigger if the payment installment should not be less than 30000 .
+ if this is the case then create trigger for it and set old payment as new payment.
+ 
+mysql> create trigger amountwarning
+    -> before update on payment
+    -> for each row
+    -> begin
+    -> if (new.pay_amount<30000) then
+    -> set new.pay_amount=old.pay_amount;
+    -> end if;
+    -> end;
+    -> //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> update  payment set pay_amount='45000' where pay_id='1002'
+    -> //
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update  payment set pay_amount='20000' where pay_id='1002'
+    -> //
+Query OK, 0 rows affected (0.01 sec)
+Rows matched: 1  Changed: 0  Warnings: 0
+11. create trigger to increment the salary if the workers works more than 3 years in a particualar feild by 10%.
+mysql> create trigger salary_increment
+    -> before insert on workers
+    -> for each row
+    -> begin
+    -> if(year(new.date_of_join)>3)
+    -> then set new.salary=0.1*new.salary + new.salary;
+    -> end if;
+    -> end;
+    -> //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> insert into workers values (505,'gopal','watchman',3000,9935072458,'2017-12-12');
+    -> //
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from workers;
+    -> //
++-----------+---------+------------------+--------+------------+--------------+
+| worker_id | wname   | w_feild          | salary | phone_no   | date_of_join |
++-----------+---------+------------------+--------+------------+--------------+
+|       500 | kavitha | sweeper          |   5000 | 9874637298 | 2017-09-11   |
+|       501 | Rahul   | electrician      |   5000 | 9874257298 | 2018-04-19   |
+|       502 | ajay    | watchman         |   5000 | 9874257222 | 2016-09-30   |
+|       503 | barath  | electrician      |   6000 | 9819857222 | 2018-10-22   |
+|       504 | surya   | bathroom_cleaner |   1000 | 9819787112 | 2017-11-20   |
+|       505 | gopal   | watchman         |  3300  | 9935072458 | 2017-12-12   |
++-----------+---------+------------------+--------+------------+--------------+
+6 rows in set (0.00 sec)
+12. create a procedure that if the payment amount is less than 50000 then
+ provide balance with required amount to satisfy the prescribed amount(50000).
+mysql> create procedure updatebalance(in pay1 int)
+    -> begin
+    -> declare payamount int;
+    -> set payamount = pay1;
+    -> if(payamount<50000) then
+    -> update payment set balance=(50000-payamount) where payamount=pay_amount;
+    -> else
+    -> update payment set balance=0 where payamount=pay_amount;
+    -> end if;
+    -> end;
+    -> //
+Query OK, 0 rows affected (0.01 sec)
+mysql> call updatebalance(50000);
+    -> //
+Query OK, 3 rows affected (0.01 sec)
+
+mysql> select * from payment;
+    -> //
++--------+------------+------------+----------+--------+---------+
+| pay_id | pay_date   | pay_amount | pay_mode | stu_id | balance |
++--------+------------+------------+----------+--------+---------+
+|   1000 | 2020-12-22 |      50000 | online   |    101 |       0 |
+|   1001 | 2020-11-10 |      40000 | offline  |    102 |   10000 |
+|   1002 | 2020-10-02 |      45000 | offline  |    103 |    5000 |
+|   1003 | 2020-11-02 |      50000 | online   |    104 |       0 |
+|   1004 | 2020-11-11 |      50000 | online   |    105 |       0 |
++--------+------------+------------+----------+--------+---------+
+5 rows in set (0.00 sec)
+13.create a view to find the complaints register today.
+mysql> create view review as
+    -> select * from hos_main;
+Query OK, 0 rows affected (0.02 sec)
+mysql> select * from review;
++-------------+---------------+---------+-------------+-----------+
+| complain_id | complain_name | room_no | date_of_com | worker_id |
++-------------+---------------+---------+-------------+-----------+
+|         400 | fan           |      39 | 2022-06-12  |       501 |
+|         401 | light         |      40 | 2022-06-14  |       503 |
+|         402 | bathroom      |      41 | 2022-03-11  |       504 |
+|         403 | window        |      40 | 2022-08-10  |       500 |
+|         404 | tables        |      61 | 2022-09-19  |       504 |
++-------------+---------------+---------+-------------+-----------+
+5 rows in set (0.01 sec)
+mysql> create view anotherreview as
+    -> select * from hos_main where date_of_com=curdate();
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> select * from anotherreview;
++-------------+---------------+---------+-------------+-----------+
+| complain_id | complain_name | room_no | date_of_com | worker_id |
++-------------+---------------+---------+-------------+-----------+
+|         401 | light         |      40 | 2022-06-14  |       503 |
++-------------+---------------+---------+-------------+-----------+
+1 row in set (0.00 sec)
+14.perform left join,right join ,innser join and note the outputs.
+mysql> select s.stu_id,s.sname,p.pay_id,p.pay_amount from
+    -> student s left join payment p on s.stu_id=p.stu_id;
++--------+---------+--------+------------+
+| stu_id | sname   | pay_id | pay_amount |
++--------+---------+--------+------------+
+|    101 | manohar |   1000 |      50000 |
+|    102 | kushi   |   1001 |      40000 |
+|    103 | kumar   |   1002 |      45000 |
+|    104 | navven  |   1003 |      50000 |
+|    105 | likitha |   1004 |      50000 |
++--------+---------+--------+------------+
+5 rows in set (0.00 sec)
+mysql> select s.stu_id,s.sname,p.pay_id,p.pay_amount from
+    -> student s join payment p on s.stu_id=p.stu_id;
++--------+---------+--------+------------+
+| stu_id | sname   | pay_id | pay_amount |
++--------+---------+--------+------------+
+|    101 | manohar |   1000 |      50000 |
+|    102 | kushi   |   1001 |      40000 |
+|    103 | kumar   |   1002 |      45000 |
+|    104 | navven  |   1003 |      50000 |
+|    105 | likitha |   1004 |      50000 |
++--------+---------+--------+------------+
+5 rows in set (0.00 sec)
+15.perform natural join and cross join and note down the output.
+mysql> select h.complain_id,h.complain_name,w.wname,w.w_feild from
+    -> hos_main h cross join workers w group by h.complain_id;
++-------------+---------------+---------+---------+
+| complain_id | complain_name | wname   | w_feild |
++-------------+---------------+---------+---------+
+|         404 | tables        | kavitha | sweeper |
+|         403 | window        | kavitha | sweeper |
+|         402 | bathroom      | kavitha | sweeper |
+|         401 | light         | kavitha | sweeper |
+|         400 | fan           | kavitha | sweeper |
++-------------+---------------+---------+---------+
+5 rows in set (0.00 sec)
+
+mysql> select h.complain_id,h.complain_id,w.wname,w.w_feild from
+    -> hos_main h cross join workers w group by w.w_feild;
++-------------+-------------+---------+------------------+
+| complain_id | complain_id | wname   | w_feild          |
++-------------+-------------+---------+------------------+
+|         404 |         404 | kavitha | sweeper          |
+|         404 |         404 | Rahul   | electrician      |
+|         404 |         404 | ajay    | watchman         |
+|         404 |         404 | surya   | bathroom_cleaner |
++-------------+-------------+---------+------------------+
+4 rows in set (0.00 sec)
+
+mysql> select h.complain_id,h.complain_id,w.wname,w.w_feild from
+    -> hos_main h natural join workers w ;
++-------------+-------------+---------+------------------+
+| complain_id | complain_id | wname   | w_feild          |
++-------------+-------------+---------+------------------+
+|         403 |         403 | kavitha | sweeper          |
+|         400 |         400 | Rahul   | electrician      |
+|         401 |         401 | barath  | electrician      |
+|         402 |         402 | surya   | bathroom_cleaner |
+|         404 |         404 | surya   | bathroom_cleaner |
++-------------+-------------+---------+------------------+
+5 rows in set (0.00 sec)
+16.find the students who have't paid the hostal fee.
+mysql> select * from payment where balance=0;
++--------+------------+------------+----------+--------+---------+
+| pay_id | pay_date   | pay_amount | pay_mode | stu_id | balance |
++--------+------------+------------+----------+--------+---------+
+|   1000 | 2020-12-22 |      50000 | online   |    101 |       0 |
+|   1003 | 2020-11-02 |      50000 | online   |    104 |       0 |
+|   1004 | 2020-11-11 |      50000 | online   |    105 |       0 |
++--------+------------+------------+----------+--------+---------+
+3 rows in set (0.00 sec)
+17.provide a check constraint see to that the hostal fee 
+should not exeed 50000 i.e all hostal student has to pay 50000 only.
+mysql> alter table payment add constraint check(pay_amount<=50000);
+Query OK, 5 rows affected (0.12 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> update  payment set pay_amount=60000 where pay_id=1004;
+ERROR 3819 (HY000): Check constraint 'payment_chk_1' is violated.
+
+18.convert the lower case values of staff_name into upper case.
+mysql> update staff set staff_name=upper(staff_name);
+Query OK, 5 rows affected (0.01 sec)
+Rows matched: 5  Changed: 5  Warnings: 0
+
+mysql> select * from staff;
++----------+--------------+----------+------------+-------------+-----------+
+| staff_id | staff_name   | s_salary | s_phone_no | staff_feild | worker_id |
++----------+--------------+----------+------------+-------------+-----------+
+|      200 | MANOHAR      |    30000 | 9827492748 | warden      |       500 |
+|      201 | PRUDVI       |    40000 | 9827492755 | incharge    |       501 |
+|      202 | AKILA        |    60000 |  982749222 | warden      |       502 |
+|      203 | RAMACHANDRAN |    15000 |  982749244 | employeee   |       503 |
+|      204 | MUKUNDHAN    |    23000 |  982749278 | worker      |       504 |
++----------+--------------+----------+------------+-------------+-----------+
+5 rows in set (0.00 sec)
+19. change the mobile number which ends with the number '2458' with 1111.
+mysql> update workers set phone_no=replace(phone_no,'1111','2458') where phone_no like '%2458';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 1  Changed: 0  Warnings: 0
+
+mysql> select * from workers;
++-----------+---------+------------------+--------+------------+--------------+
+| worker_id | wname   | w_feild          | salary | phone_no   | date_of_join |
++-----------+---------+------------------+--------+------------+--------------+
+|       500 | kavitha | sweeper          |   5000 | 9874637298 | 2017-09-11   |
+|       501 | Rahul   | electrician      |   5000 | 9874257298 | 2018-04-19   |
+|       502 | ajay    | watchman         |   5000 | 9874257222 | 2016-09-30   |
+|       503 | barath  | electrician      |   6000 | 9819857222 | 2018-10-22   |
+|       504 | surya   | bathroom_cleaner |   1000 | 9819787112 | 2017-11-20   |
+|       505 | gopal   | watchman         |   3000 | 9935072458 | 2017-12-12   |
++-----------+---------+------------------+--------+------------+--------------+
+6 rows in set (0.00 sec)
+20.append the worker name surya with reddy using concat function.
+mysql> update workers set wname=concat(wname,'reddy') where wname='surya';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from workers;
++-----------+------------+------------------+--------+------------+--------------+
+| worker_id | wname      | w_feild          | salary | phone_no   | date_of_join |
++-----------+------------+------------------+--------+------------+--------------+
+|       500 | kavitha    | sweeper          |   5000 | 9874637298 | 2017-09-11   |
+|       501 | Rahul      | electrician      |   5000 | 9874257298 | 2018-04-19   |
+|       502 | ajay       | watchman         |   5000 | 9874257222 | 2016-09-30   |
+|       503 | barath     | electrician      |   6000 | 9819857222 | 2018-10-22   |
+|       504 | suryareddy | bathroom_cleaner |   1000 | 9819787112 | 2017-11-20   |
+|       505 | gopal      | watchman         |   3000 | 9935072458 | 2017-12-12   |
++-----------+------------+------------------+--------+------------+--------------+
+6 rows in set (0.05 sec)
+21.find the student details and payment details who have paid the fee in november month.
+mysql> select s.stu_id,s.sname,s.dept_name,p.pay_id,p.pay_amount from
+    -> student s join payment p on s.stu_id=p.stu_id where month(p.pay_date)='11';
++--------+---------+-----------+--------+------------+
+| stu_id | sname   | dept_name | pay_id | pay_amount |
++--------+---------+-----------+--------+------------+
+|    102 | kushi   | CSE       |   1001 |      40000 |
+|    104 | navven  | MECH      |   1003 |      50000 |
+|    105 | likitha | IT        |   1004 |      50000 |
++--------+---------+-----------+--------+------------+
+3 rows in set (0.00 sec)
+22. create a cursor to display the records of student.
+mysql> create procedure set_cursor()
+    -> begin
+    -> declare a char (20);
+    -> declare b char (20);
+    -> declare cur cursor for select sname,address from student;
+    -> open cur;
+    -> fetch cur into a,b;
+    -> select a,b;
+    -> close cur;
+    -> end;
+    -> /
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> call set_cursor();
+    -> .
+    -> /
++---------+-------+
+| a       | b     |
++---------+-------+
+| manohar | yanam |
++---------+-------+
+1 row in set (0.01 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+23.create a procedure  to get the data of birth of the student .
+mysql> create procedure pro1(in dates date)
+    -> begin
+    -> declare dat date;
+    -> set dat=dates;
+    -> select dob from student where dob=dat;
+    -> end;
+    -> /
+Query OK, 0 rows affected (0.01 sec)
+mysql> call pro1('2000-02-19');/
++------------+
+| dob        |
++------------+
+| 2000-02-19 |
++------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
